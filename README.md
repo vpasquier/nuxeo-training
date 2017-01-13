@@ -1,4 +1,4 @@
-# Getting Started - Day 1&2
+# Getting Started - Day 1 & 2
 
 ## Setup
 
