@@ -10,6 +10,7 @@ Distribution and Dev mode setup:
 - Install JSF UI at `./nuxeoctl mp-install nuxeo-jsf-ui`.
 - Open `NUXEO_HOME/bin/nuxeo.conf` file.
 - Remove the line `wizard.done=false`.
+- Download `nuxeo-elasticsearch-core-8.10.jar` from this repository to `NUXEO_HOME/nxserver/bundles` in your server to deactivate CORS on elasticsearch. (click yes to replace)
 - Execute `./nuxeoctl console`.
 
 # API REST - Day 3
