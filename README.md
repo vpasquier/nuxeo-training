@@ -17,7 +17,7 @@ Distribution and Dev mode setup:
 
 ## Setup
 
-- Checkout this project and open restapi.js (to only file to code within).
+- Checkout this project and open restapi.js (only file to code within).
 - Install the Nuxeo chrome extension.
 - Stop Nuxeo server.
 - Uncomment `org.nuxeo.dev=true`.
@@ -49,64 +49,66 @@ Nuxeo Execution and Studio custom bundle setup:
 To be able to make API calls on a Nuxeo server, you need to create a `Client` object:
 
 ```javascript
-var client = new nuxeo.Client({
-  baseURL: 'http://localhost:8080/nuxeo',
+var nuxeo = new Nuxeo({
+  baseURL: 'http://localhost:8080/nuxeo/',
+  restPath: 'site/api/v1/',
+  automationPath: 'site/automation/',
   auth: {
-      username: 'Administrator',
-      password: 'Administrator'
-    }
-})
+    method: 'basic',
+    username: Administrator,
+    password: Administrator
+  },
+  timeout: 3000
+});
 
-  client.schema("dublincore");
-  client.timeout(3000);
-  return client;
+  nuxeo.schemas(["dublincore"]);
+  nuxeo.timeout(3000);
+  return nuxeo;
 ```
 
-#### Client Methods
+#### Nuxeo Methods
 
-**client.timeout(timeout)**
+**nuxeo.timeout(timeout)**
 Sets the common timeout in ms to be used for the requests.
 
-**client.header(name, value)**
+**nuxeo.header(name, value)**
 
-**client.headers(headers)**
+**nuxeo.headers(headers)**
 
-**client.repositoryName(repositoryName)**
+**nuxeo.repositoryName(repositoryName)**
 
-**client.schema(schema)**
+**nuxeo.schema(schema)**
 
-**client.schemas(schemas)** (`X-NXDocumentProperties` header)
+**nuxeo.schemas(schemas)** (`X-NXDocumentProperties` header)
 
 -----------
 
 ### 1) Get Administrator user in `RestAPI.getCurrentUser = function ()`
 
-Use `this.client` to get Client for all examples now.
+Use `this.nuxeo` to get `nuxeo` for all examples now.
 
 ####Request Object
 
 Fetching vpasquier user: (using `user/{userName}` endpoint)
 
 ```javascript
-this.client.request('user/vpasquier').get(callback)
+this.nuxeo.request('user/vpasquier').get()
+.then(function(response){
+  callbackCurrentUser(null, response);
+})
+.catch(function(error) {
+  callbackCurrentUser(error, null);
+});
 ```
 Calling endpoint `path/`
 
 ```javascript
-var request = this.client.request('path/');
+var request = this.nuxeo.request('path/')....
 ```
 
 You can have access to the following methods.
 
-**request.path(path)**
-
-**request.get(options, callback)**
-
-**request.post(options, callback)**
-
-**request.put(options, callback)**
-
-**request.delete(options, callback)**
+https://nuxeo.github.io/nuxeo-js-client/latest/Request.html
 
 ### 2) Execute Query in `RestAPI.executeQuery = function (query)`
 
@@ -114,55 +116,19 @@ Use GET method and `query` endpoint with `?query=SELECT * .....` path parameter.
 
 ### 3) Get Root Children in `RestAPI.getRootChildren = function ()`
 
-#### Document Object
+#### Operation Object
 
-Fetch the Root document:
+You can have access to the following methods:
 
-```javascript
-this.client.document('/').fetch(callback);
-```
-Create a document:
-
-```
-this.client.document('/')
-  .create({
-    type: 'Folder',
-    name: 'My Folder',
-    properties: {
-      "dc:title": "My Folder",
-      "dc:description": "A Simple Folder"
-    }
-```
-
-You can have access to the following methods.
-
-**document.children(callback)**
-
-**document.fetch(callback)**
-
-**document.create(doc, callback)**
-
-**document.update(data, callback)**
-
-**document.delete(callback)**
-
-**document.set(properties)**
-
-**document.save(callback)**
-
-**document.header(head,value)**
-
-**document.schemas(schemas)**
+https://nuxeo.github.io/nuxeo-js-client/latest/Operation.html
 
 ### 4) Fetch Document in `RestAPI.fetchDocument = function (id)`
 
-### 5) Modify `RestAPI.fetchDocument = function (map)` to get common schema
+You can have access to the following methods:
 
-Use schemas method.
+https://nuxeo.github.io/nuxeo-js-client/latest/Document.html
 
-### 6) Modify `RestAPI.fetchDocument = function (map)` to get ACLS
-
-Use content enricher with `X-NXContext-Category` header = "acls".
+(Use content enricher with `X-NXContext-Category` header = "acls".)
 
 ### 7) Update Document in `RestAPI.updateDocument = function (map)`
 
