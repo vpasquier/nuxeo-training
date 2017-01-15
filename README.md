@@ -116,7 +116,7 @@ Use GET method and `query` endpoint with `?query=SELECT * .....` path parameter.
 
 ### 3) Get Root Children in `RestAPI.getRootChildren = function ()`
 
-#### Operation Object
+To display the grid listing fetch all the children of a root document.
 
 You can have access to the following methods:
 
@@ -124,18 +124,13 @@ https://nuxeo.github.io/nuxeo-js-client/latest/Operation.html
 
 ### 4) Fetch Document in `RestAPI.fetchDocument = function (id)`
 
-You can have access to the following methods:
+To display the metadata on the right, fetch the document selected in the grid.
 
-https://nuxeo.github.io/nuxeo-js-client/latest/Document.html
+You can have access to the following methods: https://nuxeo.github.io/nuxeo-js-client/latest/Document.html
 
 (Use content enricher with `X-NXContext-Category` header = "acls".)
 
-### 7) Update Document in `RestAPI.updateDocument = function (map)`
-
-Use **document.set(properties)** and **document.save(callback)**
-with `this.currentDocument`
-
-### 8) Create Document in `RestAPI.createDocument = function (map)`
+### 5) Create Document in `RestAPI.createDocument = function (map)`
 
 Hint:
 ```
@@ -147,69 +142,25 @@ properties: {
 }
 ```
 
-### 9) Delete Document in `RestAPI.deleteDocument = function ()`
+### 6) Update Document in `RestAPI.updateDocument = function (map)`
 
-## Automation API & Files
+Use **document.set(properties)** and **document.save(callback)**
+with `this.currentDocument`
 
-Retrieving the Root children document:
+### 7) Delete Document in `RestAPI.deleteDocument = function ()`
 
-```javascript
-client.operation('Document.GetChildren')
-  .input('doc:/')
-  .execute(function(error, children) {
-    if (error) {
-      // something went wrong
-      throw error;
-    }
-    console.log('Root document has ' + children.entries.length + ' children');
-  });
-```
-
-You can have access to the following methods.
-
-**operation.input(object)**
-
-**operation.param(name, value)**
-
-**operation.params(params)**
-
-**operation.context(context)**
-
-**operation.execute(callback)**
+Check the repository API.
 
 ### Uploader API
 
-#### Samples
+To be able to import file or attach a blob in the interface you can see the following methods:
 
-Upload a blob to an existing document. In this example, `file` is a File JavaScript object, as filled when using the `<input type="file" .../>` HTML object.
+https://nuxeo.github.io/nuxeo-js-client/latest/BatchUpload.html
 
-```javascript
-// Create the uploader bound to the operation
-var uploader = client.operation("Blob.Attach")
-  .params({ document: existingDocId,
-    save : true,
-    xpath: "file:content"
-  })
-  .uploader();
-
-// Upload the file
-uploader.uploadFile(file, function(fileIndex, file, timeDiff) {
-  // When done, execute the operation
-  uploader.execute(function(error, data) {
-    if (error) {
-      // something went wrong
-      throw error;
-    }
-    
-    // successfully attached blob
-  });
-}
-```
-
-### 10) Import file by filling `RestAPI.importFile = function (file)`
+### 8) Import file by filling `RestAPI.importFile = function (file)`
 
 Use `FileManager.Import` operation.
 
-### 11) Attach file by filling `RestAPI.attachBlob = function (file)`
+### 9) Attach file by filling `RestAPI.attachBlob = function (file)`
 
 Use `Blob.Attach` operation.
