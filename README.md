@@ -159,7 +159,7 @@ https://nuxeo.github.io/nuxeo-js-client/latest/BatchUpload.html
 
 ### 8) Import file by filling `RestAPI.importFile = function (file)`
 
-Use `FileManager.Import` operation.
+Use `BatchUpload` object
 
 ### 9) Attach file by filling `RestAPI.attachBlob = function (file)`
 
